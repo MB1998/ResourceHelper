@@ -5,7 +5,7 @@ public class ResourceHelper {
         }
         
         List<TimeLog_Entry__c> timeLogs = 
-            [SELECT Project__c, Working_Hours__c FROM Timelog_Entry__c WHERE Start_Date__c = LAST_N_DAYS:30 AND Resource__c = :resource.Id];
+            [SELECT Id, Project__c, Working_Hours__c FROM Timelog_Entry__c WHERE Start_Date__c = LAST_N_DAYS:30 AND Resource__c = :resource.Id];
         if(timeLogs.isEmpty()){
             return 'Timelogs for this month cannot be found';
         }
@@ -50,7 +50,7 @@ public class ResourceHelper {
 		}
 
 		List<ResourcePermission__c> resourcePermissions = 
-            [SELECT Overtime_Hours__c, isOvertime__c, Project__c FROM ResourcePermission__c WHERE Resource__c = :resource.Id AND Project__c IN :projectsIds];
+            [SELECT Id, Overtime_Hours__c, isOvertime__c, Project__c FROM ResourcePermission__c WHERE Resource__c = :resource.Id AND Project__c IN :projectsIds];
         
 		for(ResourcePermission__c resourcePermission : resourcePermissions){
 			resourcePermission.Overtime_Hours__c = overtimeWorkingHoursByProject.get(resourcePermission.Project__c);
